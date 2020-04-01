@@ -16,11 +16,10 @@ def categories():
     conn = _connect()
     cursor = conn.cursor()
     cursor.execute("SELECT id, name FROM Category")
-    ids = cursor.fetchall()
+    results = cursor.fetchall()
     cursor.close()
     conn.close()
-    for i in ids:
-        yield Category(*i)
+    return [Category(*r) for r in results]
 
 
 class Category:
@@ -32,13 +31,34 @@ class Category:
     def products(self):
         """ Get list of products belonging in Category.
         Return list of Product objects"""
-        pass
+        conn = _connect()
+        cursor = conn.cursor()
+        req = ("SELECT Product.id " 
+               "FROM ProductCategory "
+               "INNER JOIN Product ON Product.id = ProductCategory.product_id "
+               "WHERE ProductCategory.category_id = %s")
+        cursor.execute(req, (self.id,))
+        results = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return [Product(*r) for r in results]
 
 
 class Product:
 
     def __init__(self, id):
         self.id = id
+
+    def short_description(self):
+        """ Return a short description: product's name and brands"""
+        conn = _connect()
+        cursor = conn.cursor()
+        req = "SELECT product_name, brands FROM Product WHERE id = %s"
+        cursor.execute(req, (self.id,))
+        name, brands = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return '{} - {}'.format(name, brands)
 
     def description(self):
         pass
