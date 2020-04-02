@@ -69,4 +69,15 @@ class Product:
         return '{} - {}'.format(name, brands)
 
     def description(self):
-        pass
+        """ Return a long description of the product"""
+        values = _execute(
+            "SELECT product_name, brands, UPPER(nutrition_grade_fr), "
+            "generic_name, stores, url "
+            "FROM Product WHERE id = %s",
+            (self.id,))[0]
+        print("{} - {}\n"
+              "Nutriscore : {}\n"
+              "Description : {}\n"
+              "Où l'acheter : {}\n"
+              "Page Open Food Facts : {}\n"
+              .format(*values))
