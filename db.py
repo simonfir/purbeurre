@@ -11,15 +11,31 @@ def _connect():
         return MySQLConnection(**load(f))
 
 
-def categories():
-    """ Get the list of all categories. Return list of Category obj"""
+def _execute(request, args):
+    """ Execute request on the database, Return rows as a tuple"""
     conn = _connect()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, name FROM Category")
+    cursor.execute(request, args)
     results = cursor.fetchall()
     cursor.close()
     conn.close()
+    return results
+
+
+def search_categories(search):
+    """ Search categories matching search. Return Category object"""
+    results = _execute("SELECT id, name FROM Category "
+                       "WHERE MATCH (name) AGAINST (%s) ",
+                       (search,))
     return [Category(*r) for r in results]
+
+
+def search_products(search):
+    """ Search products matching search. Return Product object"""
+    results = _execute("SELECT id FROM Products "
+                       "WHERE MATCH (product_name, gerenic_name, brands) "
+                       "AGAINST (%s)", (search,))
+    return [Product(*r) for r in results]
 
 
 class Category:

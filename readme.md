@@ -15,11 +15,18 @@ suported.
 3 - Quitter
 >>> 1
 
-Choisissez une catégorie
-1 - Pâtes à tartiner
-2 - Céréales
-3 - ...
+1 - Recherchez par catégorie
+2 - Recherchez par produit
 >>> 1
+
+Recherchez une catégorie
+>>> pâtes à tartiner
+
+1 - Pâtes à tartiner
+2 - Pâtes à tartiner aux noisettes
+3 - Pâtes à tartuner au chocolat
+4 - ...
+>>> 2
 
 Catégorie: pâtes à tartiner
 Choisissez un produit
