@@ -47,16 +47,12 @@ class Category:
     def products(self):
         """ Get list of products belonging in Category.
         Return list of Product objects"""
-        conn = _connect()
-        cursor = conn.cursor()
-        req = ("SELECT Product.id " 
-               "FROM ProductCategory "
-               "INNER JOIN Product ON Product.id = ProductCategory.product_id "
-               "WHERE ProductCategory.category_id = %s")
-        cursor.execute(req, (self.id,))
-        results = cursor.fetchall()
-        cursor.close()
-        conn.close()
+        results = _execute("SELECT Product.id "
+                           "FROM ProductCategory "
+                           "INNER JOIN Product "
+                           "ON Product.id = ProductCategory.product_id "
+                           "WHERE ProductCategory.category_id = %s",
+                           (self.id,))
         return [Product(*r) for r in results]
 
 
@@ -67,13 +63,9 @@ class Product:
 
     def short_description(self):
         """ Return a short description: product's name and brands"""
-        conn = _connect()
-        cursor = conn.cursor()
-        req = "SELECT product_name, brands FROM Product WHERE id = %s"
-        cursor.execute(req, (self.id,))
-        name, brands = cursor.fetchone()
-        cursor.close()
-        conn.close()
+        name, brands = _execute("SELECT product_name, brands "
+                                "FROM Product WHERE id = %s",
+                                (self.id,))[0]
         return '{} - {}'.format(name, brands)
 
     def description(self):
