@@ -81,3 +81,30 @@ class Product:
               "Où l'acheter : {}\n"
               "Page Open Food Facts : {}\n"
               .format(*values))
+
+    def substitutes(self):
+        """ Get a list of similar products with a better nutrition grade.
+        Return Product object."""
+        # Here we assume that the more categories two products share,
+        # the more similar they are. We use a subrequest on the
+        # ProductCategory table to get an intermediate table `Similar`
+        # containing the number of categories each product shares with
+        # the original product. We can then keep the products with a
+        # better nutrition grade and sort them to get the most similar
+        # substitutes first.
+        results = _execute(
+            "SELECT Product.id "
+            "FROM ( "
+            "  SELECT product_id, COUNT(product_id) AS nb_shared_categories "
+            "  FROM ProductCategory "
+            "  WHERE category_id IN ( "
+            "    SELECT category_id FROM ProductCategory WHERE Product_id = %s) "
+            "  GROUP BY product_id"
+            "  ) AS Similar "
+            "INNER JOIN Product ON Similar.product_id = Product.id "
+            "WHERE Product.nutrition_grade_fr < ( "
+            "  SELECT nutrition_grade_fr FROM Product WHERE id = %s) "
+            "ORDER BY nb_shared_categories DESC, nutrition_grade_fr ",
+            (self.id,)*2
+        )
+        return [Product(*r) for r in results]
