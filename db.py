@@ -64,10 +64,11 @@ class Product:
 
     def short_description(self):
         """ Return a short description: product's name and brands"""
-        name, brands = _execute("SELECT product_name, brands "
-                                "FROM Product WHERE id = %s",
-                                (self.id,))[0]
-        return '{} - {}'.format(name, brands)
+        name, brands, grade = _execute(
+            "SELECT product_name, brands, nutrition_grade_fr"
+            "FROM Product WHERE id = %s",
+            (self.id,))[0]
+        return '{} - {} (Nutriscore: {})'.format(name, brands, grade)
 
     def description(self):
         """ Return a long description of the product"""
