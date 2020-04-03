@@ -77,12 +77,12 @@ class Product:
             "generic_name, stores, url "
             "FROM Product WHERE id = %s",
             (self.id,))[0]
-        print("{} - {}\n"
-              "Nutriscore : {}\n"
-              "Description : {}\n"
-              "Où l'acheter : {}\n"
-              "Page Open Food Facts : {}\n"
-              .format(*values))
+        return ("{} - {}\n"
+                "Nutriscore : {}\n"
+                "Description : {}\n"
+                "Où l'acheter : {}\n"
+                "Page Open Food Facts : {}"
+                .format(*values))
 
     def substitutes(self):
         """ Get a list of similar products with a better nutrition grade.
