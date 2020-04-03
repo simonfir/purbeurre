@@ -42,3 +42,39 @@ description: pâte à tartiner
 magasin où l'acheter: auchan, carfour, ...
 page openfoodfact: www.openfoodfact.org/15649653
 ```
+
+## Saving a substitute
+
+```
+Substitut possible pour Nutella (nutriscore E):
+
+Pâte choco noisette (nutriscore D)
+description: pâte à tartiner
+magasin où l'acheter: auchan, carfour, ...
+page openfoodfact: www.openfoodfact.org/15649653
+
+1 - Voir un autre substitut
+2 - Enregistrer le substitut
+>>> 2
+
+Substitut enregistré.
+```
+
+## Browse saved substitutes
+
+```
+1 - Quel aliment souhaitez-vous remplacer?
+2 - Retrouver mes aliments substitués
+3 - Quitter
+>>> 2
+
+1 - Pâte choco noisette (substitut pour: Nutella)
+2 - ...
+>>> 1
+
+Pâte choco noisette (nutriscore D)
+enregistré comme substitut pour: Nutella (nutriscore E)
+description: pâte à tartiner
+magasin où l'acheter: auchan, carfour, ...
+page openfoodfact: www.openfoodfact.org/15649653
+```
