@@ -33,8 +33,8 @@ def search_categories(search):
 
 def search_products(search):
     """ Search products matching search. Return Product object"""
-    results = _execute("SELECT id FROM Products "
-                       "WHERE MATCH (product_name, gerenic_name, brands) "
+    results = _execute("SELECT id FROM Product "
+                       "WHERE MATCH (product_name, generic_name, brands) "
                        "AGAINST (%s)", (search,))
     return [Product(*r) for r in results]
 
