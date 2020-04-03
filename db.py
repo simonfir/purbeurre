@@ -11,13 +11,14 @@ def _connect():
         return MySQLConnection(**load(f))
 
 
-def _execute(request, args):
+def _execute(request, args=()):
     """ Execute request on the database, Return rows as a tuple"""
     conn = _connect()
     cursor = conn.cursor()
     cursor.execute(request, args)
-    results = cursor.fetchall()
+    results = cursor.fetchall() if cursor.with_rows else None
     cursor.close()
+    conn.commit()
     conn.close()
     return results
 
