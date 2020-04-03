@@ -110,3 +110,19 @@ class Product:
             (self.id,)*2
         )
         return [Product(*r) for r in results]
+
+
+def save_substitute(original, substitute):
+    """ Save a substitute for a product"""
+    _execute("INSERT INTO SavedSubstitute "
+             "(original_product_id, substitute_product_id)"
+             "VALUES (%s, %s)",
+             (original.id, substitute.id))
+
+
+def get_saved_substitutes():
+    """ Get a list of saved substitutes. Return list of tuples
+    (original Product object, substitute Product object)"""
+    results = _execute("SELECT original_product_id, substitute_product_id "
+                       "FROM SavedSubstitute")
+    return [(Product(r[0]), Product(r[1])) for r in results]
