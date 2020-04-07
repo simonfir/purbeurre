@@ -26,7 +26,8 @@ def _execute(request, args=()):
 def search_categories(search):
     """ Search categories matching search. Return Category object"""
     results = _execute("SELECT id, name FROM Category "
-                       "WHERE MATCH (name) AGAINST (%s) ",
+                       "WHERE MATCH (name) AGAINST (%s) "
+                       "LIMIT 30",
                        (search,))
     return [Category(*r) for r in results]
 
@@ -35,7 +36,8 @@ def search_products(search):
     """ Search products matching search. Return Product object"""
     results = _execute("SELECT id FROM Product "
                        "WHERE MATCH (product_name, generic_name, brands) "
-                       "AGAINST (%s)", (search,))
+                       "AGAINST (%s) "
+                       "LIMIT 30", (search,))
     return [Product(*r) for r in results]
 
 
