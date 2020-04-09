@@ -10,6 +10,7 @@ def numbered_choice(items):
     # Ask user until answer is valid
     while True:
         answer = input('>>> ')
+        print()
         if answer.isdigit() and 0 < int(answer) <= len(items):
             break
         else:
@@ -23,6 +24,7 @@ def search_product():
     while True:
         print('Chercher un produit, entrez vos mots clés.')
         search = input('>>> ')
+        print()
         products = db.search_products(search)
         if products:
             descriptions = [prod.short_description() for prod in products]
@@ -34,10 +36,10 @@ def search_product():
 def find_substitute():
     """ Help user find a substitute for a product"""
     original = search_product()
-    print(original.description())
+    print(original.description() + '\n')
     for substitute in original.substitutes():
-        print('Substitut possible:')
-        print(substitute.description())
+        print('Substitut possible :\n')
+        print(substitute.description() + '\n')
         choice = numbered_choice(('Enregistrer ce substitut',
                                   'Voir un autre substitut',
                                   'Retour'))
@@ -53,7 +55,7 @@ def browse_saved_substitutes():
     saved_substitutes = db.get_saved_substitutes()
     names = [sub.short_description() for original, sub in saved_substitutes]
     original, substitute = saved_substitutes[numbered_choice(names)]
-    print('Substitut pour ' + original.short_description())
+    print('Substitut pour ' + original.short_description() + '\n')
     print(substitute.description())
 
 
