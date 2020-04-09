@@ -15,6 +15,7 @@ CREATE TABLE Product (
 	nutrition_grade_fr CHAR(1),
 	PRIMARY KEY (id)
 );
+CREATE FULLTEXT INDEX ft_product ON Product (product_name, generic_name, brands);
 
 CREATE TABLE Category (
 	id SMALLINT UNSIGNED AUTO_INCREMENT,
@@ -22,6 +23,7 @@ CREATE TABLE Category (
 	name VARCHAR(100),
 	PRIMARY KEY (id)
 );
+CREATE FULLTEXT INDEX ft_category_name ON Category (name);
 
 CREATE TABLE ProductCategory (
 	product_id SMALLINT UNSIGNED,
